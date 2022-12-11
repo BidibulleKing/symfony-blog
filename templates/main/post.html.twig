@@ -20,10 +20,14 @@
 	<small>Nombre de likes :
 		{{post.nbLikes}}.</small>
 	<small>Créé le
-		{{post.createdAt.format('d-m-Y')}}.</small>
+		{{post.createdAt.format('d-m-Y')}}
+		à
+		{{post.updatedAt.format('H:i')}}.</small>
 	{% if post.updatedAt %}
 		<small>Dernier like le :
-			{{post.updatedAt.format('d-m-Y')}}.</small>
+			{{post.updatedAt.format('d-m-Y')}}
+			à
+			{{post.updatedAt.format('H:i')}}.</small>
 	{% endif %}
 
 	<br><br>
