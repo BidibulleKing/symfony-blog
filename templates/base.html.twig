@@ -1,13 +1,34 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" {% if theme is defined %} data-theme="{{theme}}" {% endif %}>
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
 		<title>
 			{% block title %}{% endblock %}
 		</title>
 	</head>
-	<body style="font-family: Arial, sans-serif;"> {% block body %}{% endblock %}
-		</body>
-	</html>
+	<body>
+		<header class="container">
+			<nav>
+				<ul>
+					<li>
+						<strong>Admin</strong>
+					</li>
+				</ul>
+				<ul>
+					<li><a href="" role="button">Créer un post</a></li>
+					<li><a class="secondary"href="{{path('change_theme')}}" id="theme-button" role="button">Changer de thème</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main class="container">
+			<h1>
+				<a href="{{path('post_index')}}">Bienvenue sur mon blog Symfony !</a>
+			</h1>
+			{% block body %}{% endblock %}
+		</main>
+	</body>
+</html>

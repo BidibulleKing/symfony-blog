@@ -1,3 +1,5 @@
+{% extends "base.html.twig" %}
+
 {% block body %}
 
 	<h1>
@@ -8,8 +10,20 @@
 
 	<p>{{post.body}}</p>
 
-	<h3>Nombre de likes :
-		{{post.nbLikes}}</h3>
-	<h4>Créé le
-		{{post.createdAt.format('d-m-Y')}}</h4>
+	<div class="buttons-container">
+		<a href="{{path('post_like', {id: post.id})}}" role="button">+ 1 like</a>
+		<a class="secondary" href="{{path('post_delete', {id: post.id})}}" role="button">Supprimer ce post</a>
+	</div>
+
+	<br>
+
+	<small>Nombre de likes :
+		{{post.nbLikes}}.</small>
+	<small>Créé le
+		{{post.createdAt.format('d-m-Y')}}.</small>
+	{% if post.updatedAt %}
+		<small>Dernier like le :
+			{{post.updatedAt.format('d-m-Y')}}.</small>
+	{% endif %}
+
 {% endblock %}

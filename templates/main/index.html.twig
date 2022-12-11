@@ -4,16 +4,22 @@
 {% endblock %}
 
 {% block body %}
-	<h1 style="text-align: center;">Bienvenue sur mon blog Symfony !</h1>
-
 	{% if posts is defined %}
 		{% for post in posts %}
-			<h2>{{post.title}}</h2>
+			<h2>
+				<a href="{{path('post_show', {id: post.id})}}">{{post.title}}</a>
+			</h2>
 			<p>{{post.body}}</p>
-			<h3>Nombre de likes :
-				{{post.nbLikes}}</h3>
-			<h4>Date de création :
-				{{post.createdAt.format('d-m-Y')}}</h4>
+			<small>Nombre de likes :
+				{{post.nbLikes}}.</small>
+			<small>Date de création :
+				{{post.createdAt.format('d-m-Y')}}.</small>
+			{% if post.updatedAt %}
+				<small>Dernier like le :
+					{{post.updatedAt.format('d-m-Y')}}
+					à
+					{{post.updatedAt.format('H:i')}}.</small>
+			{% endif %}
 			<hr>
 		{% endfor %}
 	{% else %}
