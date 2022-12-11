@@ -2,16 +2,13 @@
 
 namespace App\Controller;
 
-use DateTime;
 use App\Entity\Post;
+use App\Form\PostType;
 use DateTimeImmutable;
 use App\Repository\PostRepository;
-use Doctrine\DBAL\Types\DateType;
-use Doctrine\DBAL\Types\TextType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Persistence\Event\ManagerEventArgs;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -109,28 +106,35 @@ class PostController extends AbstractController
             $manager->persist($post);
             $manager->flush();
 
-            return $this->redirect($this->generateUrl("post_show", ["id" => $id]));
+            return $this->redirectToRoute("post_show", ["id" => $id]);
         }
     }
 
     /**
-     * @Route("post/new", name="post_create")
+     * @Route("new", name="post_new")
      *
      * @param Request $request
-     * @return RedirectResponse
+     * @return Response
      */
-    public function createAction(Request $request): RedirectResponse
+    public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $post = new Post();
 
-        $form = $this->createFormBuilder($post)
-            ->add("title", TextType::class)
-            ->add("body", TextType::class)
-            ->add("created_at", DateType::class)
-            ->add("published_at", DateType::class)
-            ->getForm();
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
 
-        return $this->redirect($this->generateUrl("post_index"));
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            return $this->redirectToRoute("post_index");
+        }
+
+        return $this->render("main/new.html.twig", [
+            "form" => $form->createView(),
+            "theme" => $this->theme
+        ]);
     }
 
     /**
@@ -150,7 +154,7 @@ class PostController extends AbstractController
             $entityManager->remove($post);
             $entityManager->flush();
 
-            return $this->redirect($this->generateUrl("post_index"));
+            return $this->redirectToRoute("post_index");
         }
     }
 

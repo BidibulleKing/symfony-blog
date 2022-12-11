@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +47,15 @@ class Post
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $updated_at;
+
+    public function __construct()
+    {
+        $datetime = new DateTimeImmutable();
+
+        $this->created_at = $datetime;
+        $this->published_at = $datetime;
+        $this->nb_likes = 0;
+    }
 
     public function getId(): ?int
     {

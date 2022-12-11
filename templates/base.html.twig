@@ -18,17 +18,13 @@
 					</li>
 				</ul>
 				<ul>
-					<li><a href="" role="button">Créer un post</a></li>
+					<li><ahref="{{path('post_new')}}" role="button">Créer un article</a></li>
 					<li><a class="secondary"href="{{path('change_theme')}}" id="theme-button" role="button">Changer de thème</a></li>
 				</ul>
 			</nav>
 		</header>
 
-		<main class="container">
-			<h1>
-				<a href="{{path('post_index')}}">Bienvenue sur mon blog Symfony !</a>
-			</h1>
-			{% block body %}{% endblock %}
-		</main>
-	</body>
-</html>
+		<main class="container"> {% block body %}{% endblock %}
+			</main>
+		</body>
+	</html>

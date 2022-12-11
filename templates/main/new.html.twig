@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<h1>
+		{% block title %}
+			Créer un nouvel article
+		{% endblock %}
+	</h1>
+
+	{{form_start(form)}}
+	<div class="grid">
+		{{form_row(form.title)}}
+		{{form_row(form.body)}}
+
+		<button type="submit">Ajouter l'article</button>
+	</div>
+	{{form_end(form)}}
+
+
+	<a href="{{path('post_index')}}">Revenir à l'accueil</a>
+{% endblock %}
