@@ -16,15 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PostController extends AbstractController
 {
-    public function __construct()
-    {
-        $session = new Session();
-        $session->start();
-
-        $this->session = $session;
-        $this->theme = $session->get("theme");
-    }
-
     /**
      * @Route("/posts", name="post_index")
      *
@@ -35,13 +26,13 @@ class PostController extends AbstractController
         $posts = $postRepository->findAll();
 
         return $this->render("main/index.html.twig", [
-            "posts" => $posts,
-            "theme" => $this->theme
+            "posts" => $posts
         ]);
     }
 
 
-    /**
+    /** //! Deprecated : use the "new" function.
+     * 
      * @Route("/post/create", name="post_create")
      */
     public function create(ManagerRegistry $doctrine): Response
@@ -79,8 +70,7 @@ class PostController extends AbstractController
 
         if ($this->isPost($post, $id)) {
             return $this->render("main/post.html.twig", [
-                "post" => $post,
-                "theme" => $this->theme
+                "post" => $post
             ]);
         }
     }
@@ -132,8 +122,7 @@ class PostController extends AbstractController
         }
 
         return $this->render("main/new.html.twig", [
-            "form" => $form->createView(),
-            "theme" => $this->theme
+            "form" => $form->createView()
         ]);
     }
 
@@ -165,7 +154,8 @@ class PostController extends AbstractController
      */
     public function changeTheme(Request $request): RedirectResponse
     {
-        $session = $this->session;
+        $session = new Session();
+        $session->start();
 
         if ($session->get("theme") !== null) {
             if ($session->get("theme") === "dark") {

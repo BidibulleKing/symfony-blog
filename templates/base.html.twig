@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" {% if theme is defined %} data-theme="{{theme}}" {% endif %}>
+<html lang="fr" {% if app.session.get('theme') is defined %} data-theme="{{app.session.get('theme')}}" {% endif %}>
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,8 +18,12 @@
 					</li>
 				</ul>
 				<ul>
-					<li><a href="{{path('post_new')}}" role="button">Créer un article</a></li>
-					<li><a class="secondary" href="{{path('change_theme')}}" id="theme-button" role="button">Changer de thème</a></li>
+					<li>
+						<a href="{{path('post_new')}}" role="button">Créer un article</a>
+					</li>
+					<li>
+						<a class="secondary" href="{{path('change_theme')}}" id="theme-button" role="button">Changer de thème</a>
+					</li>
 				</ul>
 			</nav>
 		</header>
