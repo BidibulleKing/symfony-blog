@@ -8,6 +8,14 @@
 		Bienvenue sur mon blog Symfony !
 	</h1>
 
+	{% if author is defined %}
+		<em>Articles écrits par
+			<strong>{{author.firstname}}
+				{{author.lastname}}</strong>
+		</em>
+	{% endif %}
+
+
 	{% if posts is defined %}
 		{% for post in posts %}
 			<h2>

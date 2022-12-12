@@ -1,36 +1,63 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+	<div class="post">
+		<h1>
+			{% block title %}
+				{{post.title}}
+			{% endblock %}
+		</h1>
 
-	<h1>
-		{% block title %}
-			{{post.title}}
-		{% endblock %}
-	</h1>
+		<p>{{post.body}}</p>
 
-	<p>{{post.body}}</p>
+		<div class="buttons-container">
+			<a href="{{path('post_like', {id: post.id})}}" role="button">+ 1 like</a>
+			<a class="secondary" href="{{path('post_delete', {id: post.id})}}" role="button">Supprimer ce post</a>
+		</div>
 
-	<div class="buttons-container">
-		<a href="{{path('post_like', {id: post.id})}}" role="button">+ 1 like</a>
-		<a class="secondary" href="{{path('post_delete', {id: post.id})}}" role="button">Supprimer ce post</a>
-	</div>
+		<br>
 
-	<br>
-
-	<small>Nombre de likes :
-		{{post.nbLikes}}.</small>
-	<small>Créé le
-		{{post.createdAt.format('d-m-Y')}}
-		à
-		{{post.updatedAt.format('H:i')}}.</small>
-	{% if post.updatedAt %}
-		<small>Dernier like le :
-			{{post.updatedAt.format('d-m-Y')}}
+		<small>Écrit par
+			<a href="{{path('posts_author', {id: author.id})}}">{{author.firstname}}
+				{{author.lastname}}</a>.</small><br>
+		<small>Nombre de likes :
+			{{post.nbLikes}}.</small>
+		<small>Créé le
+			{{post.createdAt.format('d-m-Y')}}
 			à
 			{{post.updatedAt.format('H:i')}}.</small>
-	{% endif %}
+		{% if post.updatedAt %}
+			<small>Dernier like le :
+				{{post.updatedAt.format('d-m-Y')}}
+				à
+				{{post.updatedAt.format('H:i')}}.</small>
+		{% endif %}
+	</div>
 
-	<br><br>
-	<a href="{{path('post_index')}}">Revenir à l'accueil</a>
+	<div class="comments" style="margin: 3rem 0;">
+		<h4>Commentaires</h4>
+		{% if comments is empty%}
+			<p>Il n'y a pas encore de commentaire. Soyez le premier à en écrire un !</p>
+		{% else %}
+			{% for comment in comments %}
+				<p>{{comment.body}}</p>
+				<small>
+					<strong>{{comment.username}}</strong>
+					le
+					{{comment.publishedAt.format('d-m-Y')}}
+					à
+					{{comment.publishedAt.format('H:i')}}
+				</small>
+				<hr>
+			{% endfor %}
+		{% endif %}
+
+		<br>
+		<a href="{{path('comment_new', {id: post.id})}}" role="button">Écrire un commentaire</a>
+	</div>
+
+	<div class="utils">
+		<a href="{{path('post_index')}}">Revenir à l'accueil</a>
+	</div>
 
 {% endblock %}

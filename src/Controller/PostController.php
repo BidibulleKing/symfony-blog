@@ -6,13 +6,14 @@ use App\Entity\Post;
 use App\Form\PostType;
 use DateTimeImmutable;
 use App\Repository\PostRepository;
+use App\Repository\AuthorRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class PostController extends AbstractController
 {
@@ -70,9 +71,28 @@ class PostController extends AbstractController
 
         if ($this->isPost($post, $id)) {
             return $this->render("main/post.html.twig", [
-                "post" => $post
+                "post" => $post,
+                "author" => $post->getAuthor(),
+                "comments" => $post->getComments()
             ]);
         }
+    }
+
+    /**
+     * @Route("/posts/author/{id}", name="posts_author")
+     *
+     * @param [type] $id
+     * @return Response
+     */
+    public function getPostsFromAuthor($id, AuthorRepository $repository)
+    {
+        $author = $repository->find($id);
+        $posts = $author->getPosts();
+
+        return $this->render('main/index.html.twig', [
+            'author' => $author,
+            'posts' => $posts
+        ]);
     }
 
     /**
