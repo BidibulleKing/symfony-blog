@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PostController extends AbstractController
 {
     /**
-     * @Route("/posts", name="post_index")
+     * @Route("/", name="post_index")
      *
      * @return Response
      */
